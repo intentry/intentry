@@ -7,6 +7,7 @@ use clap_complete::Shell;
 mod commands;
 mod config;
 mod error;
+mod store;
 mod ui;
 
 use error::{CliError, CliResult};
@@ -288,28 +289,28 @@ async fn run() -> CliResult<()> {
             }
         },
         Commands::New { slug, tier, no_commit } => {
-            commands::new::run(&slug, tier, no_commit, json)?;
+            commands::new::run(&slug, tier, no_commit, json).await?;
         }
         Commands::List => {
-            commands::ls::run(json)?;
+            commands::ls::run(json).await?;
         }
-        Commands::Show { prompt, .. } => {
-            commands::show::run(&prompt, json)?;
+        Commands::Show { prompt, content } => {
+            commands::show::run(&prompt, content, json).await?;
         }
         Commands::Edit { prompt } => {
-            commands::edit::run(&prompt, json)?;
+            commands::edit::run(&prompt, json).await?;
         }
         Commands::Commit { message, bump, dry_run } => {
-            commands::commit::run(message.as_deref(), bump.as_deref(), dry_run, json)?;
+            commands::commit::run(message.as_deref(), bump.as_deref(), dry_run, json).await?;
         }
         Commands::Log { prompt } => {
-            commands::log_cmd::run(&prompt, json)?;
+            commands::log_cmd::run(&prompt, json).await?;
         }
         Commands::Diff { from, to, all } => {
             commands::diff::run(from.as_deref(), to.as_deref(), all, json)?;
         }
         Commands::Status => {
-            commands::status::run(json)?;
+            commands::status::run(json).await?;
         }
         Commands::Parse { file } => {
             commands::parse_cmd::run(&file, json)?;
