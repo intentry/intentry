@@ -13,8 +13,8 @@ description  = "Domain types, event definitions, and VersionStore trait for Inte
 default = ["local"]
 # local: offline-capable store backed by SQLite (via sqlx, for CLI)
 local    = ["dep:sqlx"]
-# postgres: cloud-scale store backed by PostgreSQL (via sqlx, for API)
-postgres = ["dep:sqlx"]
+# postgres: cloud-scale store backed by PostgreSQL (via sqlx, for API) + R2 blob storage
+postgres = ["dep:sqlx", "dep:aws-sdk-s3", "dep:aws-credential-types", "dep:aws-config"]
 
 [dependencies]
 intr-parser = { path = "../intr-parser" }
@@ -32,6 +32,10 @@ tokio      = { workspace = true }
 tracing    = { workspace = true }
 
 sqlx       = { workspace = true, optional = true }
+
+aws-sdk-s3           = { workspace = true, optional = true }
+aws-credential-types = { workspace = true, optional = true }
+aws-config           = { workspace = true, optional = true }
 
 [dev-dependencies]
 insta    = { workspace = true }

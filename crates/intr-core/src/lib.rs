@@ -23,6 +23,9 @@ pub mod version;
 #[cfg(feature = "local")]
 pub mod local;
 
+#[cfg(feature = "postgres")]
+pub mod remote;
+
 pub use error::VersionStoreError;
 pub use ids::{AccountId, CommitId, ContentHash, PromptId, RunId, SpaceId};
 pub use store::VersionStore;
@@ -30,3 +33,6 @@ pub use types::{Account, Commit, Prompt, Space};
 
 #[cfg(feature = "local")]
 pub use local::LocalStore;
+
+#[cfg(feature = "postgres")]
+pub use remote::RemoteStore;

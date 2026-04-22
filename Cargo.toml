@@ -68,3 +68,9 @@ sqlx     = { version = "0.8", features = [
     "sqlite", "postgres", "uuid", "chrono", "json",
     "runtime-tokio-rustls",
 ] }
+
+# S3-compatible object storage (Cloudflare R2 blobs) — used by RemoteStore.
+# aws-sdk-s3 supports custom endpoints, so R2 works without any extra crate.
+aws-sdk-s3        = "1"
+aws-credential-types = { version = "1", features = ["hardcoded-credentials"] }
+aws-config        = { version = "1", features = ["behavior-version-latest"] }

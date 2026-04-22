@@ -33,11 +33,17 @@ pub enum StorageError {
     #[error("PostgreSQL error: {0}")]
     Postgres(String),
 
+    #[error("R2 object storage error: {0}")]
+    R2(String),
+
     #[error("blob store error: {0}")]
     BlobStore(String),
 
     #[error("serialization error: {0}")]
     Serialization(String),
+
+    #[error("configuration error: {0}")]
+    Configuration(String),
 
     #[error("I/O error: {0}")]
     Io(#[from] std::io::Error),
