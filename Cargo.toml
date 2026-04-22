@@ -1,0 +1,70 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/intr-cli",
+    "crates/intr-core",
+    "crates/intr-parser",
+    "crates/intr-runtime-local",
+    "crates/intr-providers",
+]
+
+[workspace.package]
+version      = "0.1.0"
+edition      = "2024"
+rust-version = "1.94"
+license      = "MIT"
+repository   = "https://github.com/intentry/intentry"
+authors      = ["Asman <asman@intentry.dev>"]
+homepage     = "https://intentry.dev"
+
+# ---------------------------------------------------------------------------
+# Workspace-level dependency pins.
+# Every crate that uses one of these references it as `{ workspace = true }`.
+# Do NOT duplicate version numbers across crate Cargo.toml files.
+# ---------------------------------------------------------------------------
+
+[workspace.dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# Serialization
+serde      = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+
+# Error handling
+thiserror = "2"
+anyhow    = "1"
+
+# IDs — UUIDv7 (Postgres 18 native; Rust: uuid crate)
+uuid = { version = "1", features = ["v7", "serde"] }
+
+# Semver for prompt versioning
+semver = { version = "1", features = ["serde"] }
+
+# Timestamps
+chrono = { version = "0.4", features = ["serde"] }
+
+# Content hashing
+sha2 = "0.11"
+hex  = "0.4"
+
+# Observability
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+# Testing (snapshot + property-based)
+insta    = { version = "1", features = ["json", "yaml"] }
+proptest = "1"
+
+# Database — behind feature flags in intr-core.
+# sqlx handles both SQLite (local/offline CLI) and PostgreSQL (cloud API).
+# Using a single library avoids the libsqlite3-sys link conflict that occurs
+# when rusqlite and sqlx-sqlite are both present.
+sqlx     = { version = "0.8", features = [
+    "sqlite", "postgres", "uuid", "chrono", "json",
+    "runtime-tokio-rustls",
+] }

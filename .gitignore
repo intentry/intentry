@@ -1,0 +1,25 @@
+# Rust
+/target/
+Cargo.lock
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+*.wasm
+
+# Test output (insta snapshots pending review)
+*.snap.new
+
+# Env files — never commit secrets
+.env
+.env.*
+!.env.example

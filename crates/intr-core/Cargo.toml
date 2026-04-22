@@ -1,0 +1,37 @@
+[package]
+name         = "intr-core"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+authors.workspace      = true
+homepage.workspace     = true
+description  = "Domain types, event definitions, and VersionStore trait for Intentry"
+
+[features]
+default = ["local"]
+# local: offline-capable store backed by SQLite (via sqlx, for CLI)
+local    = ["dep:sqlx"]
+# postgres: cloud-scale store backed by PostgreSQL (via sqlx, for API)
+postgres = ["dep:sqlx"]
+
+[dependencies]
+intr-parser = { path = "../intr-parser" }
+
+serde      = { workspace = true }
+serde_json = { workspace = true }
+thiserror  = { workspace = true }
+uuid       = { workspace = true }
+semver     = { workspace = true }
+chrono     = { workspace = true }
+sha2       = { workspace = true }
+hex        = { workspace = true }
+tokio      = { workspace = true }
+tracing    = { workspace = true }
+
+sqlx       = { workspace = true, optional = true }
+
+[dev-dependencies]
+insta    = { workspace = true }
+proptest = { workspace = true }
