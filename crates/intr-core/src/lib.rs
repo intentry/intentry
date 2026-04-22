@@ -13,6 +13,7 @@
 //! - `local` (default) — enables the [`LocalStore`] skeleton (SQLite, offline CLI).
 //! - `postgres` — enables the [`RemoteStore`] skeleton (PostgreSQL, cloud API).
 
+pub mod diff;
 pub mod error;
 pub mod events;
 pub mod ids;
@@ -27,6 +28,10 @@ pub use error::VersionStoreError;
 pub use ids::{AccountId, CommitId, ContentHash, PromptId, RunId, SpaceId};
 pub use store::VersionStore;
 pub use types::{Account, Commit, Prompt, Space};
+pub use diff::{
+    diff_commits, diff_content, Change, ChangeCategory, ChangeKind, CommitRef, DiffError,
+    DiffResult, DiffSummary, LineRange, OutputDiff, RunResult,
+};
 
 #[cfg(feature = "local")]
 pub use local::LocalStore;

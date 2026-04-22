@@ -69,10 +69,11 @@ impl<'de> serde::Deserialize<'de> for SemVer {
 // ---------------------------------------------------------------------------
 
 /// Which part of the semver to increment on a new commit.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum BumpKind {
     /// Backwards-compatible bug fixes — increments patch.
+    #[default]
     Patch,
     /// New backwards-compatible features — increments minor.
     Minor,
@@ -82,9 +83,14 @@ pub enum BumpKind {
     Explicit,
 }
 
-impl Default for BumpKind {
-    fn default() -> Self {
-        Self::Patch
+impl std::fmt::Display for BumpKind {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Patch    => write!(f, "patch"),
+            Self::Minor    => write!(f, "minor"),
+            Self::Major    => write!(f, "major"),
+            Self::Explicit => write!(f, "explicit"),
+        }
     }
 }
 
