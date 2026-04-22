@@ -1,6 +1,34 @@
 [package]
-name = "intr-cli"
-version = "0.1.0"
-edition = "2024"
+name         = "intr-cli"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+authors.workspace      = true
+homepage.workspace     = true
+description  = "The `intr` command-line interface for Intentry"
+
+[[bin]]
+name = "intr"
+path = "src/main.rs"
 
 [dependencies]
+intr-core    = { path = "../intr-core" }
+intr-parser  = { path = "../intr-parser" }
+
+clap          = { workspace = true }
+clap_complete = { workspace = true }
+tokio         = { workspace = true }
+serde         = { workspace = true }
+serde_json    = { workspace = true }
+serde_yaml    = { workspace = true }
+thiserror     = { workspace = true }
+anyhow        = { workspace = true }
+chrono        = { workspace = true }
+semver        = { workspace = true }
+indicatif     = { workspace = true }
+dialoguer     = { workspace = true }
+owo-colors    = { workspace = true }
+dirs          = { workspace = true }
+tracing       = { workspace = true }
