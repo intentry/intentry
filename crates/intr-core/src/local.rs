@@ -805,7 +805,7 @@ impl VersionStore for LocalStore {
         .map_err(|e| VersionStoreError::Storage(StorageError::Sqlite(e.to_string())))?;
 
         let has_more = rows.len() as i64 > limit;
-        let mut items: Vec<Prompt> = rows
+        let items: Vec<Prompt> = rows
             .into_iter()
             .take(limit as usize)
             .map(prompt_from_row)
