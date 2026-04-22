@@ -24,6 +24,9 @@ pub mod version;
 pub mod local;
 
 pub use error::VersionStoreError;
-pub use ids::{AccountId, CommitId, PromptId, RunId, SpaceId};
+pub use ids::{AccountId, CommitId, ContentHash, PromptId, RunId, SpaceId};
 pub use store::VersionStore;
 pub use types::{Account, Commit, Prompt, Space};
+
+#[cfg(feature = "local")]
+pub use local::LocalStore;
