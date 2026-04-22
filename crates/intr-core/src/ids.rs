@@ -106,6 +106,22 @@ pub enum IdParseError {
 }
 
 // ---------------------------------------------------------------------------
+// ContentHashParseError
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, thiserror::Error)]
+pub enum ContentHashParseError {
+    #[error("expected 'sha256:' prefix")]
+    MissingPrefix,
+
+    #[error("invalid hex: {0}")]
+    InvalidHex(String),
+
+    #[error("hash must be 32 bytes")]
+    WrongLength,
+}
+
+// ---------------------------------------------------------------------------
 // ContentHash
 // ---------------------------------------------------------------------------
 
@@ -136,6 +152,22 @@ impl fmt::Display for ContentHash {
     }
 }
 
+impl std::str::FromStr for ContentHash {
+    type Err = ContentHashParseError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let hex_str = s
+            .strip_prefix("sha256:")
+            .ok_or(ContentHashParseError::MissingPrefix)?;
+        let bytes = hex::decode(hex_str)
+            .map_err(|e| ContentHashParseError::InvalidHex(e.to_string()))?;
+        let arr: [u8; 32] = bytes
+            .try_into()
+            .map_err(|_| ContentHashParseError::WrongLength)?;
+        Ok(ContentHash(arr))
+    }
+}
+
 impl Serialize for ContentHash {
     fn serialize<S: Serializer>(&self, s: S) -> Result<S::Ok, S::Error> {
         s.serialize_str(&self.to_string())
@@ -145,15 +177,7 @@ impl Serialize for ContentHash {
 impl<'de> Deserialize<'de> for ContentHash {
     fn deserialize<D: Deserializer<'de>>(d: D) -> Result<Self, D::Error> {
         let s = String::deserialize(d)?;
-        let hex_str = s
-            .strip_prefix("sha256:")
-            .ok_or_else(|| serde::de::Error::custom("expected 'sha256:' prefix"))?;
-        let bytes = hex::decode(hex_str)
-            .map_err(|e| serde::de::Error::custom(format!("invalid hex: {e}")))?;
-        let arr: [u8; 32] = bytes
-            .try_into()
-            .map_err(|_| serde::de::Error::custom("sha256 hash must be 32 bytes"))?;
-        Ok(ContentHash(arr))
+        s.parse::<Self>().map_err(serde::de::Error::custom)
     }
 }
 
