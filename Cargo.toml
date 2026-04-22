@@ -28,7 +28,12 @@ homepage     = "https://intentry.dev"
 tokio = { version = "1", features = ["full"] }
 
 # CLI
-clap = { version = "4", features = ["derive"] }
+clap          = { version = "4", features = ["derive", "env"] }
+clap_complete = "4"
+indicatif     = "0.18"
+dialoguer     = "0.12"
+owo-colors    = "4"
+dirs          = "6"
 
 # Serialization
 serde      = { version = "1", features = ["derive"] }
@@ -53,10 +58,10 @@ sha2 = "0.11"
 hex  = "0.4"
 
 # Diff / text comparison
-similar   = { version = "2", features = ["text"] }
+similar   = { version = "3", features = ["text"] }
 
 # XML / HTML output escaping
-quick-xml = "0.36"
+quick-xml = "0.39"
 
 # Observability
 tracing            = "0.1"
