@@ -3,6 +3,8 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use intr_core::ids::AccountId;
+
 use crate::{
     error::{CliError, CliResult},
     ui::output,
@@ -39,6 +41,13 @@ pub fn run(slug: Option<&str>, json: bool) -> CliResult<()> {
 
     // Empty event log.
     fs::write(intr_dir.join("events.jsonl"), "")?;
+
+    // Persist the space slug.
+    fs::write(intr_dir.join("SPACE"), &space_slug)?;
+
+    // Persist a stable local owner ID (used before auth).
+    let owner_id = AccountId::new();
+    fs::write(intr_dir.join("OWNER_ID"), owner_id.to_string())?;
 
     // Write a .gitignore entry if a git repo is present.
     let gitignore = cwd.join(".gitignore");
