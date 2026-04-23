@@ -85,3 +85,17 @@ sqlx     = { version = "0.8", features = [
 aws-sdk-s3        = "1"
 aws-credential-types = { version = "1", features = ["hardcoded-credentials"] }
 aws-config        = { version = "1", features = ["behavior-version-latest"] }
+
+# HTTP client for provider adapters
+reqwest = { version = "0.12", default-features = false, features = ["json", "stream", "rustls-tls"] }
+
+# Secret string handling (prevents accidental logging of API keys)
+secrecy = { version = "0.8", features = ["serde"] }
+
+# Async utilities
+async-trait    = "0.1"
+futures        = "0.3"
+futures-util   = "0.3"
+
+# Backoff / retry
+tokio-retry = "0.3"
