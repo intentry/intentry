@@ -33,7 +33,7 @@ impl OpenAIProvider {
 
     fn resolve_key(&self, req: &GenerateRequest) -> Result<String, ProviderError> {
         match &req.api_key {
-            ApiKey::UserSupplied(s) => Ok(s.expose_secret().clone()),
+            ApiKey::UserSupplied(s) => Ok(s.expose_secret().to_string()),
             ApiKey::IntentryOwned => std::env::var("OPENAI_API_KEY").map_err(|_| {
                 ProviderError::MissingApiKey {
                     provider: "openai",
