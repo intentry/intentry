@@ -9,6 +9,8 @@ mod config;
 mod error;
 mod store;
 mod ui;
+mod auth;
+mod client;
 
 use error::{CliError, CliResult};
 
@@ -255,13 +257,13 @@ async fn run() -> CliResult<()> {
             commands::init::run(slug.as_deref(), json)?;
         }
         Commands::Login => {
-            commands::login::run(json)?;
+            commands::login::run(json).await?;
         }
         Commands::Logout => {
-            commands::logout::run(json)?;
+            commands::logout::run(json).await?;
         }
         Commands::Whoami => {
-            commands::whoami::run(json)?;
+            commands::whoami::run(json).await?;
         }
         Commands::Config { cmd } => match cmd {
             ConfigCmd::Get { key } => {
@@ -325,13 +327,13 @@ async fn run() -> CliResult<()> {
             commands::fork::run(&source, json)?;
         }
         Commands::Push => {
-            commands::push::run(json)?;
+            commands::push::run(json).await?;
         }
         Commands::Pull => {
-            commands::pull::run(json)?;
+            commands::pull::run(json).await?;
         }
-        Commands::Search { query, .. } => {
-            commands::search::run(&query, json)?;
+        Commands::Search { query, limit } => {
+            commands::search::run(&query, limit, json).await?;
         }
         Commands::Completions { shell } => {
             let mut cmd = Cli::command();

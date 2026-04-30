@@ -90,7 +90,7 @@ aws-config        = { version = "1", features = ["behavior-version-latest"] }
 reqwest = { version = "0.12", default-features = false, features = ["json", "stream", "rustls-tls"] }
 
 # Secret string handling (prevents accidental logging of API keys)
-secrecy = { version = "0.8", features = ["serde"] }
+secrecy = { version = "0.10", features = ["serde"] }
 
 # Async utilities
 async-trait    = "0.1"
@@ -99,3 +99,13 @@ futures-util   = "0.3"
 
 # Backoff / retry
 tokio-retry = "0.3"
+
+# OS native keychain (macOS Keychain, Linux Secret Service, Windows Credential Manager)
+keyring      = "4.0.0"
+keyring-core = "1.0.0"
+
+# Open URLs in the default browser
+open = "5"
+
+# TOML config serialisation
+toml = "1"
