@@ -10,6 +10,7 @@ pub mod log_cmd;
 pub mod login;
 pub mod logout;
 pub mod ls;
+pub mod man_cmd;
 pub mod new;
 pub mod parse_cmd;
 pub mod pull;

@@ -1,0 +1,268 @@
+name: Release
+
+# Triggered by a version tag push: git tag v0.1.0 && git push origin v0.1.0
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write   # create GitHub Release + upload assets
+
+env:
+  CARGO_TERM_COLOR: always
+  BINARY: intr
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build matrix — one job per target triple
+  # ---------------------------------------------------------------------------
+  build:
+    name: build / ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux (glibc)
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-22.04
+            archive: tar.gz
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-22.04
+            archive: tar.gz
+            cross: true
+
+          # Linux (musl — Alpine / Docker scratch)
+          - target: x86_64-unknown-linux-musl
+            os: ubuntu-22.04
+            archive: tar.gz
+            cross: true
+          - target: aarch64-unknown-linux-musl
+            os: ubuntu-22.04
+            archive: tar.gz
+            cross: true
+
+          # macOS
+          - target: x86_64-apple-darwin
+            os: macos-13
+            archive: tar.gz
+          - target: aarch64-apple-darwin
+            os: macos-14
+            archive: tar.gz
+
+          # Windows
+          - target: x86_64-pc-windows-msvc
+            os: windows-2022
+            archive: zip
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install cross (for cross-compilation targets)
+        if: matrix.cross == true
+        uses: taiki-e/install-action@cross
+
+      - name: Cache Cargo registry
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+
+      # Build with `cross` for cross-compilation targets, `cargo` otherwise.
+      - name: Build (cross)
+        if: matrix.cross == true
+        run: cross build --release --bin ${{ env.BINARY }} --target ${{ matrix.target }}
+
+      - name: Build (cargo)
+        if: matrix.cross != true
+        run: cargo build --release --bin ${{ env.BINARY }} --target ${{ matrix.target }}
+
+      # ---------------------------------------------------------------------------
+      # Package
+      # ---------------------------------------------------------------------------
+      - name: Get version
+        id: version
+        shell: bash
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Package (tar.gz)
+        if: matrix.archive == 'tar.gz'
+        shell: bash
+        run: |
+          BIN_PATH="target/${{ matrix.target }}/release/${{ env.BINARY }}"
+          ARCHIVE="${{ env.BINARY }}-${{ steps.version.outputs.version }}-${{ matrix.target }}.tar.gz"
+          tar -czf "$ARCHIVE" -C "$(dirname $BIN_PATH)" "$(basename $BIN_PATH)"
+          echo "ASSET=$ARCHIVE" >> "$GITHUB_ENV"
+
+      - name: Package (zip)
+        if: matrix.archive == 'zip'
+        shell: pwsh
+        run: |
+          $BinPath = "target\${{ matrix.target }}\release\${{ env.BINARY }}.exe"
+          $Archive = "${{ env.BINARY }}-${{ steps.version.outputs.version }}-${{ matrix.target }}.zip"
+          Compress-Archive -Path $BinPath -DestinationPath $Archive
+          "ASSET=$Archive" | Out-File -FilePath $Env:GITHUB_ENV -Append
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: ${{ env.ASSET }}
+          retention-days: 1
+
+  # ---------------------------------------------------------------------------
+  # Publish to GitHub Releases
+  # ---------------------------------------------------------------------------
+  release:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+          merge-multiple: true
+
+      - name: Get version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum * > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "intr v${{ steps.version.outputs.version }}"
+          body: |
+            ## Installation
+
+            **One-line installer (macOS/Linux):**
+            ```sh
+            curl -sSf https://intentry.dev/install.sh | sh
+            ```
+
+            **Homebrew:**
+            ```sh
+            brew tap intentry/tap
+            brew install intr
+            ```
+
+            **Cargo:**
+            ```sh
+            cargo install intr-cli
+            ```
+
+            See [CHANGELOG](https://github.com/intentry/intentry/blob/main/CHANGELOG.md) for changes.
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          files: |
+            dist/*
+
+  # ---------------------------------------------------------------------------
+  # Publish to crates.io
+  # ---------------------------------------------------------------------------
+  publish-crate:
+    name: Publish to crates.io
+    needs: release
+    runs-on: ubuntu-latest
+    # Only publish stable (non-prerelease) tags.
+    if: "!contains(github.ref_name, '-')"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo registry
+        uses: Swatinem/rust-cache@v2
+
+      # Publish dependencies first (workspace crates are not on crates.io yet).
+      # intr-cli depends on intr-core, intr-parser, intr-providers, intr-runtime-local.
+      # Those are path deps, so cargo publish --no-verify is fine for the CLI.
+      - name: Publish intr-cli
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          cargo publish -p intr-cli --no-verify
+
+  # ---------------------------------------------------------------------------
+  # Open PR on homebrew-tap to update formula
+  # ---------------------------------------------------------------------------
+  update-homebrew:
+    name: Update Homebrew tap
+    needs: release
+    runs-on: ubuntu-latest
+    if: "!contains(github.ref_name, '-')"
+
+    steps:
+      - name: Get version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Download SHA256SUMS
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+          merge-multiple: true
+
+      - name: Extract sha256 values
+        id: sha
+        run: |
+          cd dist
+          DARWIN_ARM=$(grep "aarch64-apple-darwin" SHA256SUMS.txt | awk '{print $1}')
+          DARWIN_X86=$(grep "x86_64-apple-darwin"  SHA256SUMS.txt | awk '{print $1}')
+          LINUX_ARM=$(grep  "aarch64-unknown-linux-gnu" SHA256SUMS.txt | awk '{print $1}')
+          LINUX_X86=$(grep  "x86_64-unknown-linux-gnu"  SHA256SUMS.txt | awk '{print $1}')
+          echo "darwin_arm=$DARWIN_ARM" >> "$GITHUB_OUTPUT"
+          echo "darwin_x86=$DARWIN_X86" >> "$GITHUB_OUTPUT"
+          echo "linux_arm=$LINUX_ARM"   >> "$GITHUB_OUTPUT"
+          echo "linux_x86=$LINUX_X86"   >> "$GITHUB_OUTPUT"
+
+      - name: Checkout homebrew-tap
+        uses: actions/checkout@v4
+        with:
+          repository: intentry/homebrew-tap
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          path: homebrew-tap
+
+      - name: Update formula
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          cd homebrew-tap
+          sed -i "s/version \"[^\"]*\"/version \"$VERSION\"/" Formula/intr.rb
+          sed -i "s/PLACEHOLDER_AARCH64_DARWIN_SHA256/${{ steps.sha.outputs.darwin_arm }}/" Formula/intr.rb
+          sed -i "s/PLACEHOLDER_X86_64_DARWIN_SHA256/${{ steps.sha.outputs.darwin_x86 }}/" Formula/intr.rb
+          sed -i "s/PLACEHOLDER_AARCH64_LINUX_SHA256/${{ steps.sha.outputs.linux_arm }}/" Formula/intr.rb
+          sed -i "s/PLACEHOLDER_X86_64_LINUX_SHA256/${{ steps.sha.outputs.linux_x86 }}/" Formula/intr.rb
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b release/intr-v$VERSION
+          git add Formula/intr.rb
+          git commit -m "intr: bump to v$VERSION"
+          git push origin release/intr-v$VERSION
+
+      - name: Open PR
+        env:
+          GH_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          gh pr create \
+            --repo intentry/homebrew-tap \
+            --head "release/intr-v${{ steps.version.outputs.version }}" \
+            --base main \
+            --title "intr: bump to v${{ steps.version.outputs.version }}" \
+            --body "Auto-generated by the release workflow in intentry/intentry."

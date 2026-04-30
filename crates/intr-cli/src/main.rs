@@ -217,6 +217,14 @@ enum Commands {
         /// Shell to generate completions for
         shell: Shell,
     },
+
+    /// Write man pages to a directory (for packagers)
+    #[command(hide = true)]
+    Man {
+        /// Directory to write .1 man pages into
+        #[arg(long, default_value = "./man")]
+        output: std::path::PathBuf,
+    },
 }
 
 #[derive(Subcommand, Debug)]
@@ -350,6 +358,10 @@ async fn run() -> CliResult<()> {
         Commands::Completions { shell } => {
             let mut cmd = Cli::command();
             commands::completions::run(shell, &mut cmd)?;
+        }
+        Commands::Man { output } => {
+            let mut cmd = Cli::command();
+            commands::man_cmd::run(&output, &mut cmd)?;
         }
     }
 
