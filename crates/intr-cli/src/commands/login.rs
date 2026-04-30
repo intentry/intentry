@@ -121,10 +121,20 @@ pub async fn run_with_token(explicit_token: Option<&str>, json: bool) -> CliResu
     server.abort();
 
     // ------------------------------------------------------------------
-    // Step 6: use received token OR fall back to manual paste
+    // Step 6: exchange received code OR fall back to manual paste
     // ------------------------------------------------------------------
-    let token = if let Some(t) = token {
-        t
+    let token = if let Some(code) = token {
+        // Exchange the one-time code for a real API token.
+        let anon = IntrClient::anonymous(&config);
+        anon.exchange_code(&code)
+            .await
+            .map_err(|e| match e {
+                CliError::Auth(_) => CliError::Auth(
+                    "exchange code was invalid or expired — please run `intr login` again"
+                        .to_string(),
+                ),
+                other => other,
+            })?
     } else {
         output::print_warn("Browser callback not received. Falling back to manual token entry.");
         output::print_info(&format!(
@@ -211,10 +221,10 @@ async fn run_callback_server(
                 .collect();
 
             if params.get("state").copied() == Some(expected_nonce.as_str()) {
-                if let Some(key) = params.get("key").copied() {
-                    if !key.is_empty() {
+                if let Some(code) = params.get("code").copied() {
+                    if !code.is_empty() {
                         if let Ok(mut guard) = result.lock() {
-                            *guard = Some(key.to_owned());
+                            *guard = Some(code.to_owned());
                         }
                     }
                 }
@@ -222,7 +232,9 @@ async fn run_callback_server(
         }
 
         // Respond with a success page then close.
-        let body = b"<html><body><h2>Authenticated!</h2><p>You can close this tab and return to the terminal.</p></body></html>";
+        // window.close() is best-effort — works for script-opened tabs;
+        // for user-opened tabs the browser may ignore it.
+        let body = b"<html><head><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#0a0a0a;color:#e5e5e5}div{text-align:center}</style></head><body><div><h2 style=\"margin-bottom:8px\">Authenticated.</h2><p style=\"color:#888;font-size:14px\">You can close this tab and return to the terminal.</p></div><script>setTimeout(()=>window.close(),500)</script></body></html>";
         let response = format!(
             "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
             body.len()

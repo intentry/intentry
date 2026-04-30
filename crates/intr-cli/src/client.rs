@@ -94,6 +94,29 @@ impl IntrClient {
         self.get("/v1/me").await
     }
 
+    /// `POST /v1/auth/exchange` — exchange a one-time code for an API token.
+    ///
+    /// This is the second step of the CLI login flow. The code is obtained from
+    /// the loopback redirect URL (`?code=xc_…`). It is single-use and expires
+    /// in 60 s. Returns the `intr_live_…` token to store in the keychain.
+    pub async fn exchange_code(&self, code: &str) -> CliResult<String> {
+        #[derive(Serialize)]
+        struct Req<'a> { code: &'a str }
+        #[derive(Deserialize)]
+        struct Resp { token: String }
+
+        let url = format!("{}/v1/auth/exchange", self.base);
+        let resp = self
+            .client
+            .post(&url)
+            .json(&Req { code })
+            .send()
+            .await
+            .map_err(net_err)?;
+        let resp = handle_response::<Resp>(resp).await?;
+        Ok(resp.token)
+    }
+
     /// `POST /v1/me/tokens` — create a long-lived API key.
     ///
     /// Requires a valid Clerk JWT (or existing API key) in `Authorization`.
