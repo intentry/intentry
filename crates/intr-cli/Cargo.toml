@@ -14,8 +14,10 @@ name = "intr"
 path = "src/main.rs"
 
 [dependencies]
-intr-core    = { path = "../intr-core" }
-intr-parser  = { path = "../intr-parser" }
+intr-core              = { path = "../intr-core" }
+intr-parser            = { path = "../intr-parser" }
+intr-runtime-local     = { path = "../intr-runtime-local" }
+similar                = { workspace = true }
 
 clap          = { workspace = true }
 clap_complete = { workspace = true }

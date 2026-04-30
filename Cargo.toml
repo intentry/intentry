@@ -60,6 +60,9 @@ hex  = "0.4"
 # Diff / text comparison
 similar   = { version = "3", features = ["text"] }
 
+# Template rendering (Dotprompt / Handlebars)
+handlebars = "6"
+
 # XML / HTML output escaping
 quick-xml = "0.39"
 

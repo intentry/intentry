@@ -147,6 +147,15 @@ enum Commands {
         /// Include unchanged sections
         #[arg(long)]
         all: bool,
+        /// Also run both prompts and diff their outputs
+        #[arg(long)]
+        output_diff: bool,
+        /// Input variables for --output-diff (JSON object or plain string)
+        #[arg(long)]
+        input: Option<String>,
+        /// Model override for --output-diff
+        #[arg(short, long)]
+        model: Option<String>,
     },
 
     /// Show working-copy status
@@ -162,12 +171,15 @@ enum Commands {
     Run {
         /// Prompt ref (slug or slug@version)
         prompt_ref: String,
-        /// Input string (or - to read from stdin)
+        /// Input variables (JSON object or plain string)
         #[arg(short, long)]
         input: Option<String>,
         /// Model override
         #[arg(short, long)]
         model: Option<String>,
+        /// Stream output tokens as they arrive (reserved — Phase 5+)
+        #[arg(long)]
+        stream: bool,
     },
 
     /// Run embedded evals for a prompt
@@ -308,8 +320,8 @@ async fn run() -> CliResult<()> {
         Commands::Log { prompt } => {
             commands::log_cmd::run(&prompt, json).await?;
         }
-        Commands::Diff { from, to, all } => {
-            commands::diff::run(from.as_deref(), to.as_deref(), all, json)?;
+        Commands::Diff { from, to, all, output_diff, input, model } => {
+            commands::diff::run(from.as_deref(), to.as_deref(), all, output_diff, input.as_deref(), model.as_deref(), json).await?;
         }
         Commands::Status => {
             commands::status::run(json).await?;
@@ -317,11 +329,11 @@ async fn run() -> CliResult<()> {
         Commands::Parse { file } => {
             commands::parse_cmd::run(&file, json)?;
         }
-        Commands::Run { prompt_ref, input, model } => {
-            commands::run::run(&prompt_ref, input.as_deref(), model.as_deref(), json)?;
+        Commands::Run { prompt_ref, input, model, stream } => {
+            commands::run::run(&prompt_ref, input.as_deref(), model.as_deref(), stream, json).await?;
         }
         Commands::Eval { prompt_ref, name } => {
-            commands::eval::run(&prompt_ref, name.as_deref(), json)?;
+            commands::eval::run(&prompt_ref, name.as_deref(), json).await?;
         }
         Commands::Fork { source } => {
             commands::fork::run(&source, json)?;
