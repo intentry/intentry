@@ -36,7 +36,7 @@ pub fn run(slug: Option<&str>, json: bool) -> CliResult<()> {
     fs::create_dir_all(intr_dir.join("projections"))?;
     fs::create_dir_all(intr_dir.join("objects"))?;
 
-    // HEAD file — points to the tip of the local event log.
+    // HEAD file - points to the tip of the local event log.
     fs::write(intr_dir.join("HEAD"), "")?;
 
     // Empty event log.

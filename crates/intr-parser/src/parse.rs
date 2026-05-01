@@ -66,7 +66,7 @@ fn split_frontmatter(src: &str) -> (Option<&str>, &str) {
         let body = rest.trim_start_matches(['\r', '\n']);
         (Some(yaml), body)
     } else {
-        // No closing fence — treat entire file as body (Tier 1 fallback).
+        // No closing fence - treat entire file as body (Tier 1 fallback).
         (None, src)
     }
 }
@@ -256,7 +256,7 @@ fn lint_warnings(
 // Helpers
 // ---------------------------------------------------------------------------
 
-/// Minimal semver validation — just checks MAJOR.MINOR.PATCH pattern.
+/// Minimal semver validation - just checks MAJOR.MINOR.PATCH pattern.
 fn semver_parse(s: &str) -> Result<(), ()> {
     let parts: Vec<&str> = s.split('.').collect();
     if parts.len() < 3 {

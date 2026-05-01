@@ -89,7 +89,7 @@ pub struct Commit {
 /// Cached parsed frontmatter stored alongside a commit.
 ///
 /// Populated by the store after a successful parse. Used by the API for
-/// search indexing, eval scheduling, and model routing — without re-parsing
+/// search indexing, eval scheduling, and model routing - without re-parsing
 /// raw bytes on every read.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ParsedMeta {

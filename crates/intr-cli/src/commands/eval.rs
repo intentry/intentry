@@ -1,4 +1,4 @@
-//! `intr eval` — Run embedded eval cases for a prompt and check assertions.
+//! `intr eval` - Run embedded eval cases for a prompt and check assertions.
 
 use intr_parser::{parse, EvalExpectation};
 use intr_runtime_local::{run as execute, RunInput};

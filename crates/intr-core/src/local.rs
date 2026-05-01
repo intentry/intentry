@@ -8,11 +8,11 @@
 ///
 /// ```text
 /// <data_dir>/
-///   store.sqlite               — SQLite database
+///   store.sqlite               - SQLite database
 ///   objects/
 ///     sha256/
 ///       <first2>/
-///         <rest>               — raw .prompt bytes
+///         <rest>               - raw .prompt bytes
 /// ```
 ///
 /// The same `data_dir` can be `~/.intr/` for a shared user store or a
@@ -220,7 +220,7 @@ impl LocalStore {
     /// Open or create a `LocalStore` rooted at `data_dir`.
     ///
     /// Creates the directory structure if it does not exist. Safe to call
-    /// concurrently — SQLite WAL mode handles readers/writers.
+    /// concurrently - SQLite WAL mode handles readers/writers.
     pub async fn open(data_dir: &Path) -> Result<Self, StorageError> {
         tokio::fs::create_dir_all(data_dir)
             .await
@@ -352,7 +352,7 @@ impl LocalStore {
             bump_kind => {
                 let base = current.cloned().unwrap_or(semver::Version::new(1, 0, 0));
                 if current.is_none() {
-                    // First commit — always 1.0.0 unless bumped
+                    // First commit - always 1.0.0 unless bumped
                     return Ok(base);
                 }
                 let sv = SemVer(base);
@@ -1001,7 +1001,7 @@ fn inject_fork_attribution(
             serde_yaml::to_string(&value).map_err(|e| e.to_string())?
         }
         None => {
-            // No frontmatter — inject minimal block.
+            // No frontmatter - inject minimal block.
             format!(
                 "version: \"1.0.0\"\nintentry:\n  parent: \"{}\"\n  forked_at: \"{}\"\n",
                 parent_ref, forked_at
@@ -1142,7 +1142,7 @@ mod tests {
         assert_eq!(prompt.slug, "hello");
         assert_eq!(prompt.head_commit_id, first.id);
 
-        // Second commit — patch bump.
+        // Second commit - patch bump.
         let content2 =
             b"---\nid: hello\nversion: 1.0.1\ndescription: test v2\n---\nHello, {{name}}!\n";
         let second = store

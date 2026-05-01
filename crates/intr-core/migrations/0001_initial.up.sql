@@ -1,4 +1,4 @@
--- V1-001 Phase 3 — RemoteStore initial schema
+-- V1-001 Phase 3 - RemoteStore initial schema
 -- Run against Neon (Postgres 18). Safe to re-run (IF NOT EXISTS guards).
 
 CREATE TABLE IF NOT EXISTS spaces (

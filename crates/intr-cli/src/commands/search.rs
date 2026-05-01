@@ -2,7 +2,7 @@ use crate::{client::IntrClient, config::Config, error::CliResult, ui::output};
 
 pub async fn run(query: &str, limit: u32, json: bool) -> CliResult<()> {
     let config = Config::load()?;
-    // Search is a public endpoint — no auth required.
+    // Search is a public endpoint - no auth required.
     let client = IntrClient::anonymous(&config);
     let resp = client.search(query, limit).await?;
 

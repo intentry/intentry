@@ -34,7 +34,7 @@ pub async fn run(slug: &str, tier: u8, no_commit: bool, json: bool) -> CliResult
             }));
         } else {
             output::print_success(&format!(
-                "Created {}.prompt (not committed — run `intr commit` to save)",
+                "Created {}.prompt (not committed - run `intr commit` to save)",
                 slug
             ));
         }

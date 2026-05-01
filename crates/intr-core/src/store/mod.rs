@@ -14,11 +14,11 @@ use serde::{Deserialize, Serialize};
 /// The single interface every storage backend must implement.
 ///
 /// Implementations:
-/// - [`crate::local::LocalStore`] — SQLite + local filesystem (CLI, offline).
-/// - `RemoteStore` (Phase 3) — PostgreSQL + Cloudflare R2 (cloud API).
+/// - [`crate::local::LocalStore`] - SQLite + local filesystem (CLI, offline).
+/// - `RemoteStore` (Phase 3) - PostgreSQL + Cloudflare R2 (cloud API).
 ///
 /// All `async fn` in traits are stable since Rust 1.75. This trait is NOT
-/// object-safe by design — use generics (`impl VersionStore`) or associated
+/// object-safe by design - use generics (`impl VersionStore`) or associated
 /// types, not `dyn VersionStore`.
 #[allow(async_fn_in_trait)]
 pub trait VersionStore {

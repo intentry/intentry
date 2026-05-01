@@ -1,4 +1,4 @@
-//! Anthropic adapter — direct HTTP to `api.anthropic.com`.
+//! Anthropic adapter - direct HTTP to `api.anthropic.com`.
 //!
 //! Reference: <https://docs.anthropic.com/en/api/messages>
 

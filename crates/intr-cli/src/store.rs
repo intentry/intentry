@@ -1,4 +1,4 @@
-//! Space context — find the `.intr/` directory and open a `LocalStore`.
+//! Space context - find the `.intr/` directory and open a `LocalStore`.
 //!
 //! Every command that touches the store calls [`SpaceCtx::open()`] first.
 //! It walks up from the current directory looking for `.intr/`, then opens
@@ -35,7 +35,7 @@ impl SpaceCtx {
     pub async fn open_from(start: &Path) -> CliResult<Self> {
         let intr_dir = find_intr_dir(start).ok_or_else(|| {
             CliError::Generic(
-                "not an Intentry space (no .intr/ found — run `intr init` first)".into(),
+                "not an Intentry space (no .intr/ found - run `intr init` first)".into(),
             )
         })?;
 
@@ -84,7 +84,7 @@ async fn resolve_space(store: &LocalStore, intr_dir: &Path) -> CliResult<Space> 
             .to_string()
     });
 
-    // Use a stable local owner ID — pre-auth local context.
+    // Use a stable local owner ID - pre-auth local context.
     let owner_id = local_owner_id(intr_dir);
 
     // Try to fetch existing space.
@@ -124,7 +124,7 @@ fn write_space_file(intr_dir: &Path, slug: &str) {
 /// A stable local owner ID read from `.intr/OWNER_ID`, persisted by `intr init`.
 ///
 /// Falls back to generating a new ID if the file is missing (shouldn't happen
-/// in normal use — `intr init` always writes this file).
+/// in normal use - `intr init` always writes this file).
 pub fn local_owner_id(intr_dir: &Path) -> AccountId {
     let path = intr_dir.join("OWNER_ID");
     if let Ok(s) = std::fs::read_to_string(&path) {

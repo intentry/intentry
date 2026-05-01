@@ -8,7 +8,7 @@ use crate::diff::types::{Change, ChangeKind, DiffResult};
 ///
 /// All user-supplied content is escaped via [`quick_xml::escape::escape`] to
 /// prevent XSS.  The resulting HTML is suitable for embedding inside a larger
-/// page — it is NOT a complete `<html>` document.
+/// page - it is NOT a complete `<html>` document.
 ///
 /// Structure:
 /// ```html

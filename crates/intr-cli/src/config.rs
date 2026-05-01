@@ -61,7 +61,7 @@ impl Config {
         let raw = fs::read_to_string(&path)?;
         // Parse as TOML via serde_yaml would fail; use basic toml parsing.
         // We include toml via serde support. For now, fall back to serde_yaml
-        // since toml is not in workspace deps yet — replace with toml crate later.
+        // since toml is not in workspace deps yet - replace with toml crate later.
         let config: Config = serde_yaml::from_str(&raw)
             .map_err(|e| CliError::Generic(format!("config parse error: {e}")))?;
         Ok(config)

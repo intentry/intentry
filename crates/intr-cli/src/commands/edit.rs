@@ -68,7 +68,7 @@ pub async fn run(prompt_slug: &str, json: bool) -> CliResult<()> {
         if json {
             output::print_json_ok(&serde_json::json!({ "changed": false }));
         } else {
-            output::print_info("no changes — nothing committed");
+            output::print_info("no changes - nothing committed");
         }
         return Ok(());
     }

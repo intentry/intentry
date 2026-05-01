@@ -1,7 +1,7 @@
-# FOUNDATIONS.md — The 10 Laws of Intentry
+# FOUNDATIONS.md - The 10 Laws of Intentry
 
 > This is the pinned copy of S-000. The authoritative spec is in `intentry/specs`.
-> If a design decision conflicts with any law here, the implementation is wrong — not the law.
+> If a design decision conflicts with any law here, the implementation is wrong - not the law.
 
 ---
 
@@ -9,7 +9,7 @@
 
 ### 1. Open standard before platform
 
-The `.prompt` specification must be publishable, readable, and implementable by anyone — including competitors — without any Intentry account, login, or SDK. If a design decision makes the standard harder to adopt outside Intentry, it is wrong.
+The `.prompt` specification must be publishable, readable, and implementable by anyone - including competitors - without any Intentry account, login, or SDK. If a design decision makes the standard harder to adopt outside Intentry, it is wrong.
 
 ### 2. Local-first, cloud-optional
 
@@ -37,7 +37,7 @@ OpenAPI for HTTP. Zod/serde for runtime validation. No untyped JSON blobs crossi
 
 ### 8. OSS core, hosted runtime
 
-The version store, diff engine, CLI, SDK, and `.prompt` parser are **MIT-licensed OSS from day one**. The runtime API, hosted web app, reputation engine, and enterprise features are closed-source hosted products. This boundary is maintained by the two-repo split — never cross it.
+The version store, diff engine, CLI, SDK, and `.prompt` parser are **MIT-licensed OSS from day one**. The runtime API, hosted web app, reputation engine, and enterprise features are closed-source hosted products. This boundary is maintained by the two-repo split - never cross it.
 
 ### 9. Cheap by default
 
@@ -45,7 +45,7 @@ Every design decision should make unit cost go down as we scale. Edge caching ov
 
 ### 10. Founder-voiced, developer-first
 
-No marketing copy in product surfaces. The CLI, docs, error messages, web UI — everything speaks like the founder talking to a developer peer. Specific, opinionated, sharp, sometimes funny. Never bland.
+No marketing copy in product surfaces. The CLI, docs, error messages, web UI - everything speaks like the founder talking to a developer peer. Specific, opinionated, sharp, sometimes funny. Never bland.
 
 ---
 

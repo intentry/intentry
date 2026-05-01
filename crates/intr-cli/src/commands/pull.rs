@@ -1,4 +1,4 @@
-//! `intr pull` — pull remote events and print a summary.
+//! `intr pull` - pull remote events and print a summary.
 //!
 //! For V1 this is a read-only preview: it fetches the remote event stream and
 //! prints what is available.  Full merge / apply logic will land in V1.5.

@@ -72,12 +72,12 @@ impl<'de> serde::Deserialize<'de> for SemVer {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum BumpKind {
-    /// Backwards-compatible bug fixes — increments patch.
+    /// Backwards-compatible bug fixes - increments patch.
     #[default]
     Patch,
-    /// New backwards-compatible features — increments minor.
+    /// New backwards-compatible features - increments minor.
     Minor,
-    /// Breaking changes — increments major.
+    /// Breaking changes - increments major.
     Major,
     /// Use the version supplied in the frontmatter verbatim (skip auto-bump).
     Explicit,

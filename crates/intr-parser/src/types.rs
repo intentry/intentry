@@ -9,9 +9,9 @@ use thiserror::Error;
 /// Output of parsing a `.prompt` file.
 ///
 /// The `tier` field indicates the structured richness of the file:
-/// - `1` — plain template body only, no frontmatter.
-/// - `2` — YAML frontmatter present with at least `id` + `version`.
-/// - `3` — Tier 2 + `evals` and/or `chains_to`.
+/// - `1` - plain template body only, no frontmatter.
+/// - `2` - YAML frontmatter present with at least `id` + `version`.
+/// - `3` - Tier 2 + `evals` and/or `chains_to`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ParseResult {
     /// Detected tier (1, 2, or 3).

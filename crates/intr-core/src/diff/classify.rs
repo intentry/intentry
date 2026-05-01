@@ -5,7 +5,7 @@ use super::types::{Change, ChangeCategory, ChangeKind, DiffSummary};
 // Semver bump heuristics
 // ---------------------------------------------------------------------------
 //
-// Rules (in priority order — highest wins):
+// Rules (in priority order - highest wins):
 //
 // 1. `output.schema` or `input.schema` **Removed** → MAJOR (breaking consumers)
 // 2. `output.schema` or `input.schema` **Added**   → MINOR (additive, but may break strict clients)

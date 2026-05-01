@@ -1,8 +1,8 @@
-# .prompt Specification — v1
+# .prompt Specification - v1
 
 > The authoritative source for the Intentry `.prompt` file format.
 
-**Status:** Draft — V1 launch target
+**Status:** Draft - V1 launch target
 **Maintained by:** Intentry / B3M Studio (stewardship transfer planned for V1.5)
 
 ---
@@ -11,9 +11,9 @@
 
 The `.prompt` file format is a plain-text, human-readable format for capturing the full cognitive contract between a human developer and an AI model. It is:
 
-- **100% Dotprompt-compatible** — any valid Dotprompt file is a valid `.prompt` file
-- **Progressively structured** — Tier 1 works with zero metadata; Tier 3 unlocks full platform features
-- **Versionable** — designed for git-like version control from the ground up
+- **100% Dotprompt-compatible** - any valid Dotprompt file is a valid `.prompt` file
+- **Progressively structured** - Tier 1 works with zero metadata; Tier 3 unlocks full platform features
+- **Versionable** - designed for git-like version control from the ground up
 
 ## Quick reference
 

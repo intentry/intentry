@@ -1,4 +1,4 @@
-//! `intr push` — push local events to the remote.
+//! `intr push` - push local events to the remote.
 //!
 //! Reads the local event log from the `.intr/` directory and uploads any events
 //! that haven't been synced yet to the cloud API via `POST /v1/events/batch`.

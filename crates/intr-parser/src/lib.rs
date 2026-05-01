@@ -1,4 +1,4 @@
-//! `intr-parser` — Parser for the `.prompt` file format.
+//! `intr-parser` - Parser for the `.prompt` file format.
 //!
 //! Parses Dotprompt-compatible `.prompt` files into a structured [`ParseResult`].
 //! Supports all three tiers:

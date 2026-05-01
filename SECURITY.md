@@ -27,11 +27,11 @@ We will acknowledge within 48 hours and aim to release a fix within 14 days for 
 
 In scope:
 - `intr-core`, `intr-parser`, `intr-cli`, SDK libraries
-- The `.prompt` spec — design flaws that enable parser attacks
+- The `.prompt` spec - design flaws that enable parser attacks
 
 Out of scope:
-- The hosted platform (`intentry.dev`) — report via HackerOne (link TBD)
-- Third-party dependencies — report directly to upstream
+- The hosted platform (`intentry.dev`) - report via HackerOne (link TBD)
+- Third-party dependencies - report directly to upstream
 
 ## Disclosure policy
 

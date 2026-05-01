@@ -34,9 +34,9 @@ pub struct Message {
 /// - Zeroes the memory on drop
 #[derive(Clone)]
 pub enum ApiKey {
-    /// Caller-supplied key — passed per request, never persisted by Intentry.
+    /// Caller-supplied key - passed per request, never persisted by Intentry.
     UserSupplied(SecretString),
-    /// Intentry-owned key — resolved from environment at startup.
+    /// Intentry-owned key - resolved from environment at startup.
     /// (Used when Intentry runs model calls on behalf of the user.)
     IntentryOwned,
 }

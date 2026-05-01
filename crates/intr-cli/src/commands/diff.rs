@@ -82,7 +82,7 @@ pub async fn run(
             }
         }
         _ => {
-            // Working copy vs HEAD — stub for now (needs store wiring in Phase 3).
+            // Working copy vs HEAD - stub for now (needs store wiring in Phase 3).
             eprintln!("note: working-copy diff requires store initialisation (Phase 3)");
             eprintln!("hint: use `intr diff <file-a> <file-b>` to compare two files directly");
         }

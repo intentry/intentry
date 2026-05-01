@@ -1,7 +1,7 @@
-//! `intr-providers` — model-provider abstraction for Intentry.
+//! `intr-providers` - model-provider abstraction for Intentry.
 //!
 //! Every AI model call goes through the [`Provider`] trait.  To add a new
-//! model you add a new adapter — nothing else changes.
+//! model you add a new adapter - nothing else changes.
 //!
 //! # Quick start
 //!

@@ -1,4 +1,4 @@
-//! Ollama adapter — direct HTTP to a local (or remote) Ollama server.
+//! Ollama adapter - direct HTTP to a local (or remote) Ollama server.
 //!
 //! Reference: <https://github.com/ollama/ollama/blob/main/docs/api.md>
 //!
@@ -99,7 +99,7 @@ impl Provider for OllamaProvider {
         "ollama"
     }
 
-    /// Ollama supports any model pulled locally — we use a sensible default
+    /// Ollama supports any model pulled locally - we use a sensible default
     /// list for the index but fall through by prefix for anything else.
     fn supported_models(&self) -> &[&'static str] {
         &[
@@ -122,7 +122,7 @@ impl Provider for OllamaProvider {
         with_retry("ollama", &req, || self.do_generate(&req)).await
     }
 
-    /// Ollama is free (local inference) — cost is always `None`.
+    /// Ollama is free (local inference) - cost is always `None`.
     fn estimate_cost_usd(&self, _model: &str, _tokens_in: u32, _tokens_out: u32) -> Option<f64> {
         None
     }

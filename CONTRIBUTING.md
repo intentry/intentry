@@ -1,21 +1,21 @@
 # Contributing to Intentry
 
-Thank you for your interest. This project is spec-driven — every contribution starts with a spec, not with code.
+Thank you for your interest. This project is spec-driven - every contribution starts with a spec, not with code.
 
 ## Before you start
 
-1. Read [FOUNDATIONS.md](FOUNDATIONS.md) — the 10 Laws govern every decision here.
+1. Read [FOUNDATIONS.md](FOUNDATIONS.md) - the 10 Laws govern every decision here.
 2. Find the relevant spec in [intentry/specs](https://github.com/intentry/specs) for what you want to build.
 3. If no spec exists for your feature, open an issue describing the problem. We'll write the spec together before any code is written.
 
 ## Contribution workflow
 
-1. **Find the spec** — identify the spec ID (e.g. `V1-002`) that covers your change.
+1. **Find the spec** - identify the spec ID (e.g. `V1-002`) that covers your change.
 2. **Fork the repo** and create a branch: `feat/<spec-id>-<short-slug>` or `fix/<spec-id>-<short-slug>`.
-3. **Implement** — follow the spec exactly. If you think the spec is wrong, open an ADR (see below).
-4. **Write tests** — unit tests for all new logic. No PR merges below the coverage floor.
-5. **Open a PR** — title format: `V1-002: <description>`. Reference the spec ID in the PR body.
-6. **Wait for CI** — all checks must be green before review.
+3. **Implement** - follow the spec exactly. If you think the spec is wrong, open an ADR (see below).
+4. **Write tests** - unit tests for all new logic. No PR merges below the coverage floor.
+5. **Open a PR** - title format: `V1-002: <description>`. Reference the spec ID in the PR body.
+6. **Wait for CI** - all checks must be green before review.
 
 ## Commit message format
 

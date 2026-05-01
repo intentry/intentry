@@ -41,7 +41,7 @@ fn parse_yaml(raw: Option<&str>) -> Value {
 
 /// Convert a `serde_yaml::Value` into a `serde_json::Value` for uniform comparison.
 fn yaml_to_json(y: serde_yaml::Value) -> Value {
-    // Round-trip through JSON serialisation — simple and correct.
+    // Round-trip through JSON serialisation - simple and correct.
     let json_str = serde_json::to_string(&y).unwrap_or_default();
     serde_json::from_str(&json_str).unwrap_or(Value::Null)
 }
@@ -49,7 +49,7 @@ fn yaml_to_json(y: serde_yaml::Value) -> Value {
 /// Recursively walk two JSON values, emitting a `Change` for every leaf that differs.
 fn compare_values(path: &str, from: &Value, to: &Value, out: &mut Vec<Change>) {
     match (from, to) {
-        // Both null — no change.
+        // Both null - no change.
         (Value::Null, Value::Null) => {}
 
         // From has a value, to does not → removed.
@@ -72,12 +72,12 @@ fn compare_values(path: &str, from: &Value, to: &Value, out: &mut Vec<Change>) {
             }
         }
 
-        // Both are objects — recurse per-key.
+        // Both are objects - recurse per-key.
         (Value::Object(fm), Value::Object(tm)) => {
             compare_objects(path, fm, tm, out);
         }
 
-        // Both are arrays — compare positionally; treat array as atomic value.
+        // Both are arrays - compare positionally; treat array as atomic value.
         (Value::Array(_), Value::Array(_)) if from == to => {}
         (Value::Array(_), Value::Array(_)) => {
             out.push(make_change(
@@ -88,7 +88,7 @@ fn compare_values(path: &str, from: &Value, to: &Value, out: &mut Vec<Change>) {
             ));
         }
 
-        // Scalars — compare directly.
+        // Scalars - compare directly.
         (f, t) if f == t => {}
         (f, t) => {
             out.push(make_change(

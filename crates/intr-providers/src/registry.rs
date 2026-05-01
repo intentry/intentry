@@ -1,4 +1,4 @@
-//! Provider registry — resolves a model ID to the right [`Provider`] adapter.
+//! Provider registry - resolves a model ID to the right [`Provider`] adapter.
 
 use std::{collections::HashMap, sync::Arc};
 

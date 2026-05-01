@@ -1,4 +1,4 @@
-//! Mock provider for tests — never makes real HTTP calls.
+//! Mock provider for tests - never makes real HTTP calls.
 
 use async_trait::async_trait;
 

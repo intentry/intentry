@@ -95,7 +95,7 @@ pub async fn run(
     }
 
     if dry_run {
-        output::print_info("(dry-run — no changes written)");
+        output::print_info("(dry-run - no changes written)");
         return Ok(());
     }
 
@@ -105,7 +105,7 @@ pub async fn run(
             "skipped": skipped,
         }));
     } else if committed.is_empty() {
-        output::print_success("nothing to commit — all prompts up to date");
+        output::print_success("nothing to commit - all prompts up to date");
     } else {
         output::print_success(&format!("committed {} prompt(s)", committed.len()));
         for item in &committed {
@@ -122,7 +122,7 @@ fn parse_bump(bump: Option<&str>) -> CliResult<BumpKind> {
         Some("minor") => Ok(BumpKind::Minor),
         Some("major") => Ok(BumpKind::Major),
         Some(other) => Err(CliError::Usage(format!(
-            "unknown bump kind '{other}' — expected patch, minor, or major"
+            "unknown bump kind '{other}' - expected patch, minor, or major"
         ))),
     }
 }

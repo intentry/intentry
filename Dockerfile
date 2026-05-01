@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # ─────────────────────────────────────────────────────────────
-# Intentry — intr CLI binary
+# Intentry - intr CLI binary
 # Produces a minimal image suitable for pinning in CI pipelines
 # or running as a sidecar.
 # ─────────────────────────────────────────────────────────────

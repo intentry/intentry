@@ -22,7 +22,7 @@ use error::{CliError, CliResult};
 #[command(
     name = "intr",
     version,
-    about = "Intentry CLI — version-controlled prompt management",
+    about = "Intentry CLI - version-controlled prompt management",
     long_about = None,
     arg_required_else_help = true,
 )]
@@ -177,7 +177,7 @@ enum Commands {
         /// Model override
         #[arg(short, long)]
         model: Option<String>,
-        /// Stream output tokens as they arrive (reserved — Phase 5+)
+        /// Stream output tokens as they arrive (reserved - Phase 5+)
         #[arg(long)]
         stream: bool,
     },

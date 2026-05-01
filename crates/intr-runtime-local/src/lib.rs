@@ -1,10 +1,10 @@
-//! `intr-runtime-local` — Execute `.prompt` files against model providers locally.
+//! `intr-runtime-local` - Execute `.prompt` files against model providers locally.
 //!
 //! API keys are resolved from environment variables at call time:
-//! - `ANTHROPIC_API_KEY` — Claude models
-//! - `OPENAI_API_KEY`    — GPT / o* models
-//! - `GOOGLE_API_KEY`    — Gemini models
-//! - *(no key needed)*   — Ollama (local inference)
+//! - `ANTHROPIC_API_KEY` - Claude models
+//! - `OPENAI_API_KEY`    - GPT / o* models
+//! - `GOOGLE_API_KEY`    - Gemini models
+//! - *(no key needed)*   - Ollama (local inference)
 
 pub mod error;
 

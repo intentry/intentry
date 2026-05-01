@@ -7,7 +7,7 @@ license.workspace      = true
 repository.workspace   = true
 authors.workspace      = true
 homepage.workspace     = true
-description  = "Local execution runtime for Intentry — runs .prompt files against model providers"
+description  = "Local execution runtime for Intentry - runs .prompt files against model providers"
 
 [dependencies]
 intr-parser   = { path = "../intr-parser" }

@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 // CommitRef
 // ---------------------------------------------------------------------------
 
-/// A lightweight reference to a commit — used in [`super::DiffResult`] to
+/// A lightweight reference to a commit - used in [`super::DiffResult`] to
 /// identify which two commits are being compared.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CommitRef {
@@ -83,7 +83,7 @@ pub struct Change {
     pub before: Option<serde_json::Value>,
     /// Value on the "to" side. `None` when `kind == Removed`.
     pub after: Option<serde_json::Value>,
-    /// Line range in the template body — populated only for `SemanticTemplate` / `Cosmetic` changes.
+    /// Line range in the template body - populated only for `SemanticTemplate` / `Cosmetic` changes.
     pub line_range: Option<LineRange>,
 }
 
@@ -122,7 +122,7 @@ pub struct DiffResult {
 }
 
 // ---------------------------------------------------------------------------
-// RunResult / OutputDiff (V1 stub — output similarity gated for V1.5)
+// RunResult / OutputDiff (V1 stub - output similarity gated for V1.5)
 // ---------------------------------------------------------------------------
 
 /// The result of executing a prompt against a model during an output diff.
@@ -138,15 +138,15 @@ pub struct RunResult {
 /// A comparison between running two versions of a prompt against the same input.
 ///
 /// In V1, `output_similarity` is always `0.0` and `semantic_match` is always
-/// `None` — the embedding-based comparison is deferred to V1.5.
+/// `None` - the embedding-based comparison is deferred to V1.5.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct OutputDiff {
     pub input: serde_json::Value,
     pub left: RunResult,
     pub right: RunResult,
-    /// Cosine similarity of embeddings — V1 stub, always 0.0.
+    /// Cosine similarity of embeddings - V1 stub, always 0.0.
     pub output_similarity: f32,
-    /// Whether outputs are semantically equivalent — V1 stub, always `None`.
+    /// Whether outputs are semantically equivalent - V1 stub, always `None`.
     pub semantic_match: Option<bool>,
     /// Token-level structural diff of the two versions.
     pub token_diff: DiffResult,

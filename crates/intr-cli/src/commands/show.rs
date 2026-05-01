@@ -61,7 +61,7 @@ pub async fn run(prompt_slug: &str, content: bool, json: bool) -> CliResult<()> 
             ("version", prompt.current_version.to_string()),
             ("commit", head_commit.id.to_string()),
             ("hash", head_commit.content_hash.to_string()),
-            ("message", head_commit.message.clone().unwrap_or_else(|| "—".to_string())),
+            ("message", head_commit.message.clone().unwrap_or_else(|| "-".to_string())),
             ("updated", prompt.updated_at.format("%Y-%m-%d %H:%M UTC").to_string()),
         ]);
         if let Some(ref c) = raw_content {

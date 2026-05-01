@@ -1,4 +1,4 @@
-//! `intr man` — write man pages to a directory.
+//! `intr man` - write man pages to a directory.
 //!
 //! Intended for use by packagers:
 //! ```sh

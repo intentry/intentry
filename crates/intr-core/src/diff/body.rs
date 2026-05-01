@@ -63,7 +63,7 @@ fn flush_hunk(
     }
 
     if !removed.is_empty() && !added.is_empty() {
-        // Lines replaced — emit as a single "Modified" change covering both ranges.
+        // Lines replaced - emit as a single "Modified" change covering both ranges.
         let from_start = removed[0].0;
         let from_end   = removed.last().unwrap().0;
         let to_start   = added[0].0;

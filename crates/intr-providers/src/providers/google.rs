@@ -1,4 +1,4 @@
-//! Google Gemini adapter — direct HTTP to the Google Generative Language API.
+//! Google Gemini adapter - direct HTTP to the Google Generative Language API.
 //!
 //! Reference: <https://ai.google.dev/api/generate-content>
 

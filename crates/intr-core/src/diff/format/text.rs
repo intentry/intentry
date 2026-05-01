@@ -24,7 +24,7 @@ use crate::diff::types::{Change, ChangeKind, DiffResult};
 /// -0.5
 /// +0.9
 ///
-/// Summary: 2 semantic, 0 cosmetic change(s) — suggested bump: patch
+/// Summary: 2 semantic, 0 cosmetic change(s) - suggested bump: patch
 /// ```
 pub fn render(result: &DiffResult) -> String {
     let mut out = String::new();
@@ -67,7 +67,7 @@ pub fn render(result: &DiffResult) -> String {
     writeln!(out).unwrap();
     writeln!(
         out,
-        "Summary: {} semantic, {} cosmetic change(s) — suggested bump: {}",
+        "Summary: {} semantic, {} cosmetic change(s) - suggested bump: {}",
         result.summary.semantic_changes,
         result.summary.cosmetic_changes,
         result.summary.suggested_version_bump,

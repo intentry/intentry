@@ -14,7 +14,7 @@ env:
 
 jobs:
   # ---------------------------------------------------------------------------
-  # Build matrix — one job per target triple
+  # Build matrix - one job per target triple
   # ---------------------------------------------------------------------------
   build:
     name: build / ${{ matrix.target }}
@@ -32,7 +32,7 @@ jobs:
             archive: tar.gz
             cross: true
 
-          # Linux (musl — Alpine / Docker scratch)
+          # Linux (musl - Alpine / Docker scratch)
           - target: x86_64-unknown-linux-musl
             os: ubuntu-22.04
             archive: tar.gz

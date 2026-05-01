@@ -1,4 +1,4 @@
-//! `intr run` — Execute a prompt against a model provider.
+//! `intr run` - Execute a prompt against a model provider.
 
 use intr_core::store::VersionStore;
 use intr_runtime_local::{run as execute, RunInput};
@@ -18,7 +18,7 @@ pub async fn run(
     prompt_ref: &str,
     input: Option<&str>,
     model: Option<&str>,
-    _stream: bool, // reserved — streaming API is Phase 5+
+    _stream: bool, // reserved - streaming API is Phase 5+
     json: bool,
 ) -> CliResult<()> {
     let content = resolve_prompt_content(prompt_ref).await?;
@@ -108,7 +108,7 @@ pub(super) async fn resolve_prompt_content(prompt_ref: &str) -> CliResult<String
         .await
         .map_err(|_| {
             CliError::Generic(format!(
-                "prompt '{slug}' not found — run `intr list` to see available prompts"
+                "prompt '{slug}' not found - run `intr list` to see available prompts"
             ))
         })?;
     let commit = ctx
@@ -132,9 +132,9 @@ pub(super) async fn resolve_prompt_content(prompt_ref: &str) -> CliResult<String
 /// Parse the `--input` CLI value into a JSON `Value::Object`.
 ///
 /// Accepted forms:
-/// - `'{"key": "value"}'`  — JSON object (passed through)
-/// - `'plain text'`        — wrapped as `{"input": "plain text"}`
-/// - None                  — empty object `{}`
+/// - `'{"key": "value"}'`  - JSON object (passed through)
+/// - `'plain text'`        - wrapped as `{"input": "plain text"}`
+/// - None                  - empty object `{}`
 pub(super) fn parse_input(input: Option<&str>) -> CliResult<Value> {
     match input {
         None => Ok(Value::Object(Default::default())),

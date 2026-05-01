@@ -9,7 +9,7 @@ use crate::ui::output::is_tty;
 // Error type
 // ---------------------------------------------------------------------------
 
-/// CLI-level error type — maps to exit codes per V1-003 spec.
+/// CLI-level error type - maps to exit codes per V1-003 spec.
 ///
 /// All variants ultimately render through [`CliError::exit`] which formats
 /// them using the structured error template:
@@ -150,7 +150,7 @@ impl CliError {
 impl CliError {
     pub fn not_logged_in() -> Self {
         Self::rich(
-            "not authenticated — run `intr login` first",
+            "not authenticated - run `intr login` first",
             "auth.not_logged_in",
             Some("run `intr login` to open the browser auth flow"),
             Some("auth-not-logged-in"),
@@ -177,7 +177,7 @@ impl CliError {
 
     pub fn version_conflict(version: &str) -> Self {
         Self::rich(
-            format!("commit refused — version {version} already exists"),
+            format!("commit refused - version {version} already exists"),
             "commit.version_conflict",
             Some("use --bump minor or --version <x.y.z> to specify a different version"),
             Some("commit-version-conflict"),

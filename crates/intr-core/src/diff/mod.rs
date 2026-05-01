@@ -1,4 +1,4 @@
-//! `intr_core::diff` — Semantic diff engine for `.prompt` files.
+//! `intr_core::diff` - Semantic diff engine for `.prompt` files.
 //!
 //! This module compares two versions of an Intentry prompt file and produces a
 //! structured [`DiffResult`] describing every change, along with a [`DiffSummary`]
@@ -22,10 +22,10 @@
 //! ## Algorithm (5 steps)
 //!
 //! 1. **Parse** both sides with `intr-parser`; fall back to plain-text on failure.
-//! 2. **Frontmatter diff** — deep YAML comparison with path tracking.
-//! 3. **Body diff** — line-level Myers diff via the `similar` crate.
-//! 4. **Eval diff** — match by description/input, detect Added/Removed/Modified.
-//! 5. **Classify** — all changes → [`DiffSummary`] with semver-bump heuristics.
+//! 2. **Frontmatter diff** - deep YAML comparison with path tracking.
+//! 3. **Body diff** - line-level Myers diff via the `similar` crate.
+//! 4. **Eval diff** - match by description/input, detect Added/Removed/Modified.
+//! 5. **Classify** - all changes → [`DiffSummary`] with semver-bump heuristics.
 
 pub mod body;
 pub mod classify;
@@ -50,7 +50,7 @@ use intr_parser::parse;
 
 /// Compare two raw `.prompt` content strings.
 ///
-/// Parse failures are non-fatal — the engine falls back to a plain-text body
+/// Parse failures are non-fatal - the engine falls back to a plain-text body
 /// diff with no frontmatter changes. This matches the spec requirement that
 /// diff should work even on Tier-1 (no frontmatter) files.
 pub fn diff_content(from_content: &str, to_content: &str) -> Result<DiffResult, DiffError> {

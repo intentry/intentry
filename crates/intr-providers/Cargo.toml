@@ -5,7 +5,7 @@ edition.workspace     = true
 rust-version.workspace = true
 license.workspace     = true
 repository.workspace  = true
-description = "Intentry model provider abstraction — Anthropic, OpenAI, Google, Ollama"
+description = "Intentry model provider abstraction - Anthropic, OpenAI, Google, Ollama"
 
 [lib]
 crate-type = ["lib"]

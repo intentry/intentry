@@ -44,12 +44,12 @@ pub fn get_token() -> CliResult<Option<String>> {
 pub fn delete_token() -> CliResult<()> {
     match entry()?.delete_credential() {
         Ok(()) => Ok(()),
-        Err(KeyringError::NoEntry) => Ok(()), // already logged out — not an error
+        Err(KeyringError::NoEntry) => Ok(()), // already logged out - not an error
         Err(e) => Err(CliError::Generic(format!("failed to delete token: {e}"))),
     }
 }
 
 /// Return the stored token or a user-friendly `Auth` error.
 pub fn require_token() -> CliResult<String> {
-    get_token()?.ok_or_else(|| CliError::Auth("not logged in — run `intr login` first".to_string()))
+    get_token()?.ok_or_else(|| CliError::Auth("not logged in - run `intr login` first".to_string()))
 }

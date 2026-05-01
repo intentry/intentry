@@ -20,7 +20,7 @@ pub async fn run(json: bool) -> CliResult<()> {
         if json {
             output::print_json_ok(&serde_json::json!({ "prompts": [] }));
         } else {
-            output::print_info("no prompts yet — run `intr new <slug>` to create one");
+            output::print_info("no prompts yet - run `intr new <slug>` to create one");
         }
         return Ok(());
     }
@@ -40,7 +40,7 @@ pub async fn run(json: bool) -> CliResult<()> {
             );
         }
         if page.next_cursor.is_some() {
-            output::print_info("(more results — pagination not yet supported in CLI)");
+            output::print_info("(more results - pagination not yet supported in CLI)");
         }
     }
 

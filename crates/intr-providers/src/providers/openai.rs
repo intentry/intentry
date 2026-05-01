@@ -1,4 +1,4 @@
-//! OpenAI adapter — direct HTTP to `api.openai.com`.
+//! OpenAI adapter - direct HTTP to `api.openai.com`.
 //!
 //! Reference: <https://platform.openai.com/docs/api-reference/chat>
 

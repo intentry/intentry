@@ -43,12 +43,12 @@ where
                         provider = provider_id,
                         model = req.model,
                         error = %e,
-                        "transient provider error — will retry"
+                        "transient provider error - will retry"
                     );
                     Err(e)
                 }
                 Err(e) => {
-                    // Non-retryable — surface immediately as a permanent error.
+                    // Non-retryable - surface immediately as a permanent error.
                     // tokio-retry treats Err as "retry"; we use a custom action
                     // that converts to Ok(Err(...)) and unwraps after the loop.
                     // Simpler: wrap in a type that signals "don't retry".

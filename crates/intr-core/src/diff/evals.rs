@@ -38,7 +38,7 @@ pub fn diff_evals(from: Option<&[Eval]>, to: Option<&[Eval]>) -> Vec<Change> {
     for from_eval in from_list {
         let k = key_of(from_eval);
         if let Some(to_eval) = to_map.remove(&k) {
-            // Matched — check if content changed.
+            // Matched - check if content changed.
             let from_val = eval_to_value(from_eval);
             let to_val   = eval_to_value(to_eval);
             if from_val != to_val {

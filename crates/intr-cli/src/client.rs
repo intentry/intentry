@@ -33,7 +33,7 @@ impl IntrClient {
         }
     }
 
-    /// Unauthenticated client — for public endpoints (search, commons).
+    /// Unauthenticated client - for public endpoints (search, commons).
     pub fn anonymous(config: &Config) -> Self {
         Self {
             base: config.api_base_url().trim_end_matches('/').to_owned(),
@@ -94,7 +94,7 @@ impl IntrClient {
         self.get("/v1/me").await
     }
 
-    /// `POST /v1/auth/exchange` — exchange a one-time code for an API token.
+    /// `POST /v1/auth/exchange` - exchange a one-time code for an API token.
     ///
     /// This is the second step of the CLI login flow. The code is obtained from
     /// the loopback redirect URL (`?code=xc_…`). It is single-use and expires
@@ -117,7 +117,7 @@ impl IntrClient {
         Ok(resp.token)
     }
 
-    /// `POST /v1/me/tokens` — create a long-lived API key.
+    /// `POST /v1/me/tokens` - create a long-lived API key.
     ///
     /// Requires a valid Clerk JWT (or existing API key) in `Authorization`.
     pub async fn create_token(&self, name: &str) -> CliResult<ApiTokenResponse> {
@@ -125,13 +125,13 @@ impl IntrClient {
             .await
     }
 
-    /// `POST /v1/events/batch` — push local events to the remote.
+    /// `POST /v1/events/batch` - push local events to the remote.
     pub async fn push_events(&self, events: Vec<PushEventItem>) -> CliResult<()> {
         self.post_no_body("/v1/events/batch", &BatchPushRequest { events })
             .await
     }
 
-    /// `GET /v1/events` — pull remote events since `cursor`.
+    /// `GET /v1/events` - pull remote events since `cursor`.
     pub async fn pull_events(&self, cursor: Option<&str>) -> CliResult<PaginatedEvents> {
         let path = match cursor {
             Some(c) => format!("/v1/events?cursor={c}&limit=100"),
@@ -171,7 +171,7 @@ fn net_err(e: reqwest::Error) -> CliError {
 fn map_status(status: StatusCode, body: &str) -> CliError {
     match status {
         StatusCode::UNAUTHORIZED => {
-            CliError::Auth("authentication failed — run `intr login` again".to_string())
+            CliError::Auth("authentication failed - run `intr login` again".to_string())
         }
         StatusCode::FORBIDDEN => CliError::Auth("permission denied".to_string()),
         StatusCode::NOT_FOUND => CliError::Generic("not found".to_string()),

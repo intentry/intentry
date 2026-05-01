@@ -13,7 +13,7 @@
 ///
 /// # Configuration
 ///
-/// Construct via [`RemoteStoreConfig`] — all fields are plain strings so
+/// Construct via [`RemoteStoreConfig`] - all fields are plain strings so
 /// the caller controls how secrets are sourced (Doppler, env, etc.).
 /// Never hard-code credentials.
 ///
@@ -53,7 +53,7 @@ use crate::{
 /// Configuration for [`RemoteStore`].
 ///
 /// All sensitive fields (access keys, database URL) must come from Doppler
-/// or environment variables — never from source code.
+/// or environment variables - never from source code.
 #[derive(Debug, Clone)]
 pub struct RemoteStoreConfig {
     /// Postgres connection string, e.g. `postgresql://user:pass@host/db?sslmode=require`
@@ -112,7 +112,7 @@ impl RemoteStore {
     /// Create a new `RemoteStore`.
     ///
     /// Runs schema migrations (idempotent `CREATE TABLE IF NOT EXISTS`) against
-    /// Postgres on every call — safe for cold starts and deployments.
+    /// Postgres on every call - safe for cold starts and deployments.
     pub async fn new(config: RemoteStoreConfig) -> Result<Self, StorageError> {
         let pool = PgPoolOptions::new()
             .max_connections(config.max_connections)
@@ -153,7 +153,7 @@ impl RemoteStore {
     /// also run `migrations/0001_initial.up.sql` via `sqlx migrate run`.
     async fn run_migrations(pool: &PgPool) -> Result<(), StorageError> {
         let migration_sql = include_str!("../migrations/0001_initial.up.sql");
-        // Execute each statement individually — sqlx execute doesn't support
+        // Execute each statement individually - sqlx execute doesn't support
         // multi-statement strings in all configurations.
         for stmt in migration_sql
             .split(';')
@@ -182,7 +182,7 @@ impl RemoteStore {
         bytes: &[u8],
     ) -> Result<(), StorageError> {
         let key = self.r2_key(hash);
-        // HEAD to check existence before writing (content-addressed — idempotent).
+        // HEAD to check existence before writing (content-addressed - idempotent).
         let exists = self
             .r2
             .head_object()
@@ -344,7 +344,7 @@ struct CommitRow {
 }
 
 // ---------------------------------------------------------------------------
-// Row → domain conversions (much simpler than LocalStore — no string parsing
+// Row → domain conversions (much simpler than LocalStore - no string parsing
 // for timestamps since Postgres TIMESTAMPTZ maps directly to DateTime<Utc>).
 // ---------------------------------------------------------------------------
 

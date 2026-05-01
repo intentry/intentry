@@ -19,7 +19,7 @@ dist/
 # Test output (insta snapshots pending review)
 *.snap.new
 
-# Env files — never commit secrets
+# Env files - never commit secrets
 .env
 .env.*
 !.env.example

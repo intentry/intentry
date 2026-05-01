@@ -1,4 +1,4 @@
-//! `intr login` — authenticate and store an API key.
+//! `intr login` - authenticate and store an API key.
 //!
 //! ## Flow
 //!
@@ -130,7 +130,7 @@ pub async fn run_with_token(explicit_token: Option<&str>, json: bool) -> CliResu
             .await
             .map_err(|e| match e {
                 CliError::Auth(_) => CliError::Auth(
-                    "exchange code was invalid or expired — please run `intr login` again"
+                    "exchange code was invalid or expired - please run `intr login` again"
                         .to_string(),
                 ),
                 other => other,
@@ -150,7 +150,7 @@ pub async fn run_with_token(explicit_token: Option<&str>, json: bool) -> CliResu
 async fn validate_and_store(token: &str, config: &Config, json: bool) -> CliResult<()> {
     let client = IntrClient::new(config, token.to_owned());
     let me = client.get_me().await.map_err(|e| match e {
-        CliError::Auth(_) => CliError::Auth("invalid API key — please check and try again".to_string()),
+        CliError::Auth(_) => CliError::Auth("invalid API key - please check and try again".to_string()),
         other => other,
     })?;
 
@@ -232,7 +232,7 @@ async fn run_callback_server(
         }
 
         // Respond with a success page then close.
-        // window.close() is best-effort — works for script-opened tabs;
+        // window.close() is best-effort - works for script-opened tabs;
         // for user-opened tabs the browser may ignore it.
         let body = b"<html><head><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#0a0a0a;color:#e5e5e5}div{text-align:center}</style></head><body><div><h2 style=\"margin-bottom:8px\">Authenticated.</h2><p style=\"color:#888;font-size:14px\">You can close this tab and return to the terminal.</p></div><script>setTimeout(()=>window.close(),500)</script></body></html>";
         let response = format!(

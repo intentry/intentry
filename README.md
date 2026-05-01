@@ -12,11 +12,11 @@
 
 Intentry is the open protocol for prompt version control. It defines:
 
-- **`.prompt` file format** — a Dotprompt-compatible, progressively structured file format for capturing the full cognitive contract between human and model
-- **Version store** — event-sourced, content-addressed storage for prompt history
-- **Diff engine** — semantic diffing between prompt versions
-- **`intr` CLI** — version, commit, fork, and run `.prompt` files locally or against the hosted commons
-- **SDKs** — TypeScript, Python, and Go clients for the public API
+- **`.prompt` file format** - a Dotprompt-compatible, progressively structured file format for capturing the full cognitive contract between human and model
+- **Version store** - event-sourced, content-addressed storage for prompt history
+- **Diff engine** - semantic diffing between prompt versions
+- **`intr` CLI** - version, commit, fork, and run `.prompt` files locally or against the hosted commons
+- **SDKs** - TypeScript, Python, and Go clients for the public API
 
 The hosted platform (`intentry.dev`) is built on top of these open-source primitives. Everything here is MIT-licensed and self-hostable.
 
@@ -99,4 +99,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). The short version: spec first, then code
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).

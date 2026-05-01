@@ -4,15 +4,15 @@ use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum ProviderError {
-    /// HTTP 401/403 — bad API key or access denied. Do not retry.
+    /// HTTP 401/403 - bad API key or access denied. Do not retry.
     #[error("authentication failed for provider '{provider}': {message}")]
     AuthError { provider: &'static str, message: String },
 
-    /// HTTP 400/422 — we sent bad input. Do not retry.
+    /// HTTP 400/422 - we sent bad input. Do not retry.
     #[error("bad request to provider '{provider}': {message}")]
     BadRequest { provider: &'static str, message: String },
 
-    /// HTTP 429 — rate limited. Retryable.
+    /// HTTP 429 - rate limited. Retryable.
     #[error("rate limited by provider '{provider}'")]
     RateLimited { provider: &'static str },
 
